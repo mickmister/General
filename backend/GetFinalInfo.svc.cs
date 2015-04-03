@@ -41,9 +41,10 @@ namespace FakeNameSpace
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                string whereQuery = " where Order_No = '" + orderNumber + "' and Type = 'LABOR' and Print_On_Invoice = 'True'";
+                string whereQuery = " where Order_No = @Order_No and Type = 'LABOR' and Print_On_Invoice = 'True'";
                 string cmdStr = String.Format("Select Labor_Hours,Tech_Name from Custom" + whereQuery);
                 SqlCommand cmd = new SqlCommand(cmdStr, conn);
+                cmd.Parameters.AddWithValue("@Order_No",orderNumber);
                 SqlDataReader rd = cmd.ExecuteReader();
 
                 if (rd.HasRows)
@@ -67,9 +68,10 @@ namespace FakeNameSpace
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                string whereQuery = " where Order_No = '" + orderNumber + "' and Type = 'MATERIAL' and Print_On_Invoice = 'True'";
+                string whereQuery = " where Order_No = @Order_No and Type = 'MATERIAL' and Print_On_Invoice = 'True'";
                 string cmdStr = String.Format("Select Material_Quantity,Manufacturer,Part_No,Material_Description from Custom" + whereQuery);
                 SqlCommand cmd = new SqlCommand(cmdStr, conn);
+                cmd.Parameters.AddWithValue("@Order_No",orderNumber);
                 SqlDataReader rd = cmd.ExecuteReader();
 
                 if (rd.HasRows)
@@ -124,9 +126,10 @@ namespace FakeNameSpace
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                 conn.Open();
-                String whereQuery = " where Order_No = '" + orderNumber + "'";
+                String whereQuery = " where Order_No = @Order_No";
                 string cmdStr = String.Format("Select Email_Address_2 from Custom_Header" + whereQuery);
                 SqlCommand cmd = new SqlCommand(cmdStr, conn);
+                cmd.Parameters.AddWithValue("@Order_No",orderNumber);
                 SqlDataReader rd = cmd.ExecuteReader();
 
                 if (rd.HasRows)
@@ -144,8 +147,9 @@ namespace FakeNameSpace
                     else{
                         emailChoice = "Email_Address_3";
                     }
-                    cmd = new SqlCommand("update Custom_Header set " + emailChoice + " = @email" + whereQuery, conn);
+                    cmd = new SqlCommand("update Custom_Header set @emailChoice = @email" + whereQuery, conn);
                     cmd.Parameters.AddWithValue("@email", email);
+                    cmd.Parameters.AddWithValue("@emailChoice", emailChoice);
 
                     int result = cmd.ExecuteNonQuery();
                     if (result == 1)
@@ -172,9 +176,10 @@ namespace FakeNameSpace
             {
                 conn.Open();                
                 DateTime startDate = System.Convert.ToDateTime("1/1/1753 12:00:00 AM");
-                string whereQuery = " where Order_No = '" + orderNumber + "' and Print_On_Invoice = 'True'";
+                string whereQuery = " where Order_No = @Order_No and Print_On_Invoice = 'True'";
                 string cmdStr = String.Format("Select Date,Comment from Custom_Comment" + whereQuery);
                 SqlCommand cmd = new SqlCommand(cmdStr, conn);
+                cmd.Parameters.AddWithValue("@Order_No",orderNumber);
                 SqlDataReader rd = cmd.ExecuteReader();
                 if (rd.HasRows)
                 {
