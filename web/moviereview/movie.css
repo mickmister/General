@@ -3,7 +3,6 @@
  * Section 2
  * Recreation of a "Rotten Tomatoes" spoof page called "Rancid Tomatoes"
  * This file contains the styling code for the page
- * Note: ran out of time
  */
 
 body
@@ -13,14 +12,15 @@ body
 	font-family: Verdana, Tahoma, sans-serif;
 }
 
-body > div:first-child
+#banner
 {
 	background: white url('bannerbg.png');
 	height: 50px;
 }
 
-body > div:first-child img
+#banner img
 {
+	display: block;
 	margin-left: auto;
     margin-right: auto;
 }
@@ -34,7 +34,7 @@ h1
 	text-shadow: 3px 3px #999999;
 }
 
-body > div:nth-child(2)
+#main_content
 {
 	width: 800px;
 	margin-left: auto;
@@ -42,6 +42,7 @@ body > div:nth-child(2)
     border-radius: 20px;
     border: 4px solid;
     border-color: gray;
+    overflow: hidden;
 }
 
 /*make contents fit */
@@ -50,12 +51,21 @@ body > div:nth-child(2)
 {
 	width: 250px;
 	float: right;
-	
+	padding-bottom: 30%;	
 }
 
 .green
 {
 	background-color: #A2B964;
+	
+}
+
+p.green
+{
+	padding-top: 5px;	
+	clear: both;
+	margin-bottom: 0px;
+	padding-bottom: 5px;
 }
 
 dl
@@ -87,7 +97,7 @@ ul
 	
 }
 
-body > div:nth-child(2) > p
+#main_content > p
 {
 	text-align: center;
 }
@@ -99,7 +109,11 @@ body > div:nth-child(2) > p
 	color: red;
 	height: 83px;
 	background: white url('rbg.png');
-	vertical-align: text-bottom;
+}
+
+#overall_left > div:first-child span
+{
+	vertical-align: top;
 }
 
 #reviews div p:first-child
@@ -111,7 +125,8 @@ body > div:nth-child(2) > p
 	border-radius: 20px;
     border: 2px solid;
     border-color: gray;
-    padding: 8px;
+    padding: 8px;    
+	overflow: hidden;
 }
 
 #reviews img
@@ -123,17 +138,32 @@ body > div:nth-child(2) > p
 #reviews
 {
 	column-count: 2;
+	background-color: transparent;
 }
 
 .column
 {
 	width: 47%;
-	margin: 2%;
+	margin-left: 2%;
+	float: left;
 }
 
 body > div > a > img
 {
 	opacity: 0.5;
-	float: right;
-	vertical-align: middle;
 }
+
+body > div > a:first-child > img
+{
+	position:fixed;
+	right: 0px;
+	bottom: 0px;
+}
+
+body > div > a > img
+{
+	position:fixed;
+	right: 0px;
+	bottom: 30px;
+}
+
