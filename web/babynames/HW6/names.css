@@ -1,0 +1,38 @@
+body
+{
+	font-size: 12pt;
+	font-family: Georgia, Serif;
+}
+
+.rankBar
+{
+	color: #FFBBBB;
+	width: 50px;
+}
+
+td
+{
+	height: 250px;
+	vertical-align: bottom;
+	text-align: center;
+}
+
+q
+{
+	font-style: italic;
+}
+
+.popular
+{
+	background-color: red;
+}
+
+.unpopular
+{
+	background-color: #FFBBBB;
+}
+
+td div
+{
+	width: 50px;
+}
