@@ -28,10 +28,7 @@ public class Main
 		reader.close();
 		numIterations = 100000;
 		
-		
-		
 		execute(input, key, numRounds, numIterations);
-		
 		
 	}
 
@@ -39,11 +36,13 @@ public class Main
 			int numIterations) 
 	{
 		KeyHandler keyHandler = new KeyHandler(key, numRounds);
+
+		//used as initial "previous" cipher to xor for CBC, preserves original input
 		String cipher = "0000000000000000000000000000000000000000000000000000000000000000";
 		
 		for(int iteration = 0; iteration < numIterations; iteration++)
 		{
-			String inputXORCipher = ExpandAndXOR.xorStrings(input, cipher);
+			String inputXORCipher = ExpandAndXOR.xorBinaryStrings(input, cipher);
 			String initialPerm = Permutations.performInitialPermutation(inputXORCipher);
 			
 			String leftString = initialPerm.substring(0, 32);
@@ -53,26 +52,28 @@ public class Main
 			{
 				String roundKey = keyHandler.getKey(round);
 				String tempLeft = rightString;
-				String functionOutput = mainFunction(rightString, roundKey);
-				rightString = ExpandAndXOR.xorStrings(leftString, functionOutput);
+				String functionOutput = mainKeyFunction(rightString, roundKey);
+				rightString = ExpandAndXOR.xorBinaryStrings(leftString, functionOutput);
 				leftString = tempLeft;
 			}
 			cipher = Permutations.performInitialPermutationInverse(rightString + leftString);
 		}
 		
+		//print out final cipher
+		System.out.println(cipher);
+		
+		//test that cipher is correct for 100000 iterations
 		System.out.println(cipher.equals("1011110111110011010000010001011011101000010101100100101110101110"));
-		
-		
 		
 	}
 	
-	static String mainFunction(String rightString, String roundKey)
+	static String mainKeyFunction(String rightString, String roundKey)
 	{
 		String expandedRight = ExpandAndXOR.performExpandRight(rightString);
 		
-		String xor = ExpandAndXOR.xorStrings(expandedRight, roundKey);
+		String xorResult = ExpandAndXOR.xorBinaryStrings(expandedRight, roundKey);
 		
-		String sboxCalculation = SBox.performTotalSBoxCalculation(xor);
+		String sboxCalculation = SBox.performTotalSBoxCalculation(xorResult);
 		
 		return sboxCalculation;
 	}

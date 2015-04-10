@@ -34,7 +34,6 @@ public class KeyHandler
 		{
 			createKey(round, leftKey, rightKey);
 		}
-		
 	}
 
 	private void createKey(int round, String leftKey, String rightKey) 

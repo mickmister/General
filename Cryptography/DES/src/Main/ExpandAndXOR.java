@@ -13,18 +13,10 @@ public class ExpandAndXOR
 	
 	static String performExpandRight(String rightString)
 	{
-		StringBuilder builder = new StringBuilder();
-		for(int i = 0; i < expandR.length; i++)
-		{
-			builder.append(rightString.charAt(expandR[i]));
-		}
-		
-		return builder.toString();
+		return Permutations.performPermutation(rightString, expandR);
 	}
 	
-	
-	
-	static String xorStrings(String string1, String string2)
+	static String xorBinaryStrings(String string1, String string2)
 	{
 		StringBuilder builder = new StringBuilder();
 		int length = string1.length();
