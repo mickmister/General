@@ -1,0 +1,27 @@
+converting to int whenever doing xors or shifts
+use bitwise calculations to perform these operations, then convert back into binary string
+have ints in sbox calculations, convert into binary strings
+
+OR
+
+keep everything as binary strings
+perform permutations, xors and shifts using string operations
+have binary strings in sbox arrays
+
+
+
+SBox handling:
+
+8 2-d string/int arrays
+would need 8 separate functions
+
+OR
+
+1 3-d array string/int array
+call each sbox using index 0-7
+
+
+if int arrays are used, need to convert to binary string length 4 every time
+
+since the input is a binary string, and the output is a binary string, then all calculations could be done keeping all data in binary strings
+

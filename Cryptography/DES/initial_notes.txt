@@ -1,0 +1,48 @@
+produce round keys (16)
+get s-box stuff
+
+
+plain (64 bits) -> IP (64 bits)
+IP -> L_0 + R_0 (both 32 bits)
+
+L_1 = R_0
+R_1 = L_0 XOR f(K_1, R_0)
+L_2 = R_1
+R_2 = L_1 XOR f(K_2, R_1)
+
+left = l_0
+right = r_0
+templeft = right
+right = left XOR f(k, right)
+left = templeft
+
+...
+R_16 + L_16 -> IP^-1
+c
+
+f:
+expand R (48 bits)
+E(R) XOR K_i (48 bits)
+take 8 groups of 6 (B_1...B_8)
+index chooses s-box
+first and last bit together chooses row
+four in between chooses column
+figure out shifting and division algorithms used to compute s-box inputs
+s-boxes produce 8 4-bit outputs (C_1...C_8)
+permute C
+f result
+
+
+how to obtain round keys
+take 64 bits and chop off 8 parities (left with 56 bits)
+permute key with initial key permutation
+C_0 and D_0 (both 28 bits)
+shift bits a certain amount per round
+for 1<=i<=16:
+C_i = LS_i(C_i-1), D_i = LS_i(D_i-1)
+permute C_i + D_i to obtain K_i (56 goes to 48 bits)
+this permutation matrix is constant throughout the rounds
+
+
+find other spots to parallelize within a round
+find out if parseint xor is faster than string xor
