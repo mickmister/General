@@ -1,0 +1,112 @@
+<html ng-app="JamApp">
+<head>
+  <title>Jam App</title>
+  <base href='/'>
+
+  <!-- EXTERNAL CSS -->
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
+  rel="stylesheet" type="text/css">
+
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"
+  rel="stylesheet" type="text/css">
+
+  <link href="app/external/css/ui-bootstrap-custom-1.1.2-csp.css"
+  rel="stylesheet" type="text/css">
+  
+  <link href="app/main/piano.css"
+  rel="stylesheet" type="text/css">
+
+  <!-- EXTERNAL JAVASCRIPT -->
+<script src="app/external/js/jquery.min.js"></script>
+
+
+<script src="app/external/js/angular/angular.js"></script>
+<script src="app/external/js/angular/angular-route.js"></script>
+<script src="app/external/js/angular/angular-animate.js"></script>
+<script src="app/external/js/angular/ngStorage.js"></script>
+
+<script src="app/external/js/bootstrap/bootstrap.min.js"></script>
+<script src="app/external/js/bootstrap/ui-bootstrap-custom-tpls-1.1.2.js"></script>
+
+
+<script src="app/external/js/lodash.js"></script>
+  
+
+
+
+<!-- CUSTOM JAVASCRIPT -->
+<script type="text/javascript" src="app/main/
+app.js"></script>
+<script type="text/javascript" src="app/main/
+constants.js"></script>
+<script type="text/javascript" src="app/main/
+controller.js"></script>
+<script type="text/javascript" src="scales.js"></script>
+
+</head>
+
+
+
+
+
+
+
+
+
+
+<body ng-controller="MainController">
+
+
+
+<div class="container-fluid">
+
+
+
+<select ng-change="update()" ng-model="choice">
+<option ng-repeat="option in scaleOptions">
+{{option}}
+</option>
+</select>
+
+<i class="fa fa-md fa-chevron-left" ng-click="decrementChoice()"></i>
+<i class="fa fa-md fa-chevron-right" ng-click="incrementChoice()"></i>
+
+<button ng-click="clearProgression()">Clear</button>
+
+<br />
+<br />
+<br />
+
+<div>
+	<chord-dir chord="chord" ng-repeat="chord in scale"> </chord-dir>
+</div>
+<br />
+<br />
+<br />
+
+<!-- <div class="row"> -->
+<div class="row" ng-repeat="chord in progression">
+  <span>{{chord.name}}</span>
+  <br />
+  <span>{{chord.root}} {{chord.middle}} {{chord.dominant}}</span>'
+  <piano chord="chord"></piano>
+</div>
+<!-- </div> -->
+
+<ng-view></ng-view>
+
+
+
+
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+

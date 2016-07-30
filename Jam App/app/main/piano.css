@@ -1,0 +1,104 @@
+.white{
+	background-color: white;
+	height: 90pt;
+	width: 30pt;
+	position: relative;
+	box-shadow: 5px 3px 5px #888888;
+}
+
+.black{
+	background-color: black;
+	height: 45pt;
+	width: 9pt;
+	position: relative;
+	left: -11pt;
+	top: -45pt;
+	margin-right: -18pt;
+	z-index: 1;
+}
+
+.key{
+	border-color: black;
+	border-width: 2px;
+	border-style: solid;
+	display: inline-block;
+}
+
+body{
+	background: #F4EFFD;
+}
+
+#piano{
+	clear: left;
+	float: left;
+	margin-top: 1pt;
+}
+
+.hidden
+{
+	visibility: hidden;
+	display: none;
+}
+
+.keyspan
+{
+	font-size: 9pt;
+	text-align: center;
+}
+
+.whitekeyspan
+{
+	float: left;
+	width: 24pt;
+}
+
+.blackkeyspan
+{
+	float: left;
+	width: 6pt;
+}
+
+#keyspan0, #keyspan2, #keyspan4, #keyspan5, #keyspan7, #keyspan9, #keyspan11,
+#keyspan12, #keyspan14, #keyspan16, #keyspan17, #keyspan19, #keyspan21, #keyspan23
+{
+	float: left;
+	width: 24pt;
+}
+
+#keyspan1, #keyspan3, #keyspan6, #keyspan8, #keyspan10, #keyspan13, #keyspan15,
+#keyspan18, #keyspan20, #keyspan22
+{
+	float: left;
+	width: 6pt;
+}
+
+/*.tonic
+{
+	background-color: #4088A4;
+}*/
+
+.chord, .tonic
+{
+	background-color: #99CBDE;
+}
+
+.pentatonic
+{
+	background-color: #3CA496;
+}
+
+.dissonant
+{
+	background-color: #125F7C;
+}
+
+.red
+{
+	background-color: #FFDC00;
+}
+
+.blue
+{
+	background-color: #7F6B2F;
+	/*background-color: #7FDBFF;*/
+}
