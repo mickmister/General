@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>290: Can't tune a fish. </title>
+	<title>Music spot</title>
 	<link rel="stylesheet" type="text/css" href="piano.css">
 	<script type="text/javascript"
     	src="http://ajax.googleapis.com/ajax/libs/prototype/1.6.0.2/prototype.js">
@@ -13,10 +13,6 @@
 </head>
 
 <body>
-	<?php
-		$name = $_REQUEST['prog_name'];
-		echo "<h1 id=\"name\" class=\"centered\">$name</h1>";
-	?>
 	<div id="selectDiv">
 		<select id="scaleBox" name="scaleBox">
 			<!-- fill this with php/maybe from server? -->
@@ -52,23 +48,18 @@
 			All
 		</option>
 	</select>
+	<select id="playstyle">
+		<option>
+			Lead
+		</option>
+		<option  selected="selected">
+			Chord
+		</option>
+	</select>
 	<div id="piano"></div>
 	<div id="chordArea"></div>
 	
-	<?php
-		$userId = $_REQUEST['user_id'];
-		if(isset($_REQUEST['prog_id'])){
-			$id = $_REQUEST['prog_id'];
-			$progression = $_REQUEST['progression'];
-		}else{
-			$id = "none";
-			$progression = "none";
-		}
-		
-		echo "<span id=\"user_id\" class=\"hidden\">$userId</span>";
-		echo "<span id=\"prog_id\" class=\"hidden\">$id</span>";
-		echo "<span id=\"progression\" class=\"hidden\">$progression</span>";
-	?>
+	
 	
 </body>
 

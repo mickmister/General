@@ -1,7 +1,15 @@
 var scaleNumber;
 
-window.onload = function(){
-	var info = $('progression').innerHTML;
+// window.onload = function(){
+angular.module('MusicApp').
+	controller('MainController', ['ScalesService', 'TableItems', function(scalesService, tableItems) {
+
+
+	// var info = $('progression').innerHTML;
+	function init() {
+
+
+	var info = "none";
 	if(info == "none")
 	{
 		scaleNumber = 0;
@@ -14,15 +22,23 @@ window.onload = function(){
 	createPiano();
 	populateScaleBox();
 	// $("save").onclick = function(){saveData();};
-	$("keyappearance").onchange = function(){clearKeyInfo(); displayKeyInfo();};
-	$("play").onclick = function(){playProgression();};
-	$('clear').onclick = clearProgression;
+	// $("keyappearance").onchange = function(){clearKeyInfo(); displayKeyInfo();};
+	$scope.changeKeyAppearance = function(option) {
+		console.log(option);
+	};
+	// $("play").onclick = function(){playProgression();};
+	$scope.playProgression = playProgression;
+	// $('clear').onclick = clearProgression;
+	$scope.clearProgression = clearProgression;
 	createChordInfo();
-	populateProgression();
+	// populateProgression();
 	displayChordInfo();
-	$('scaleBox').selectedIndex = scaleNumber;
-	$("scaleBox").onchange = function(){getScaleData();};
-};
+	// $('scaleBox').selectedIndex = scaleNumber;
+	$scope.scaleSelection = {selectedIndex: scaleNumber};
+	// $("scaleBox").onchange = function(){getScaleData();};
+	$scope.changeScale = getScaleData;
+}
+// };
 
 // function saveData(){
 // 	var area = $('chordArea');
@@ -63,12 +79,14 @@ window.onload = function(){
 
 function clearProgression()
 {
-	$('chordArea').innerHTML = "";
+	$scope.progression = {chords: []};
+	// $('chordArea').innerHTML = "";
 }
 
 function populateProgression(){
 	var progNode = $('progression');
-	if(progNode.innerHTML != "none"){
+	if(false) {
+	// if(progNode.innerHTML != "none"){
 		var array = progNode.innerHTML.split("|");
 		scaleNumber = parseInt(array[0]);
 		for(var i = 1; i < array.length; i++){
@@ -101,8 +119,9 @@ function playChordHelper(chord, inversion, time)
 
 function displayChordInfo()
 {
-	displayPrimaryInfo(scaleNumber);
-	displayTwoNoteMatching(scaleNumber);
+	var maininfo = displayPrimaryInfo(scaleNumber);
+
+	var box1 = displayTwoNoteMatching(scaleNumber);
 	displayThreeNoteMatching(scaleNumber);
 	clearKeyInfo();
 	displayKeyInfo();
@@ -168,17 +187,18 @@ function displayKeyInfo()
 
 
 function displayPrimaryInfo(scaleNum){
-	var area = $('upperarea');
-	area.innerHTML = "";
+	// var area = $('upperarea');
+	// area.innerHTML = "";
 	var table = getTableOfChordInfo(scaleNum);
-	table.className = "";
-	area.appendChild(table);
+	// table.className = "";
+	// area.appendChild(table);
+	return table;
 }
 
 function displayTwoNoteMatching(scaleNum)
 {
 	var offsets = [];
-	if(scaleNum % 2 == 0)
+	if(scaleNum % 2 === 0)
 	{
 		offsets = [4, 8, 11, 15, 18, 23];
 	}
@@ -188,20 +208,23 @@ function displayTwoNoteMatching(scaleNum)
 	}
 
 
-	var area = $("twoNoteSelector");
-	area.innerHTML = "";
+	// var area = $("twoNoteSelector");
+	// area.innerHTML = "";
+	var area = [];
 	for(var i=0; i<offsets.length; i++)
 	{
 		var currentScaleNumber = (scaleNum + offsets[i]) % 24;
 		var table = getTableOfChordInfo(currentScaleNumber);
-		area.appendChild(table);
+		// area.appendChild(table);
+		area.push(table);
 	}
+	return area;
 }
 
 function displayThreeNoteMatching(scaleNum)
 {
 	var offsets = [];
-	if(scaleNum % 2 == 0)
+	if(scaleNum % 2 === 0)
 	{
 		offsets = [5, 9, 10, 14, 19];
 	}
@@ -211,15 +234,17 @@ function displayThreeNoteMatching(scaleNum)
 	}
 
 
-	var area = $("threeNoteSelector");
-	area.innerHTML = "";
-
+	// var area = $("threeNoteSelector");
+	// area.innerHTML = "";
+	var area = [];
 	for(var i=0; i<offsets.length; i++)
 	{
 		var currentScaleNumber = (scaleNum + offsets[i]) % 24;
 		var table = getTableOfChordInfo(currentScaleNumber);
-		area.appendChild(table);
+		// area.appendChild(table);
+		area.push(table);
 	}
+	return area;
 }
 
 
@@ -227,9 +252,24 @@ function displayThreeNoteMatching(scaleNum)
 function playChord(chord, inversion){
 	var frequencies = getFrequencies(chord, inversion);
 	var keys = [$(frequencies[0] + ""), $(frequencies[1] + ""), $(frequencies[2] + "")];
-	noteHit(frequencies[0], keys[0]);
-	setTimeout(function() {noteHit(frequencies[1], keys[1]);}, 250);
-	setTimeout(function() {noteHit(frequencies[2], keys[2]);}, 500);
+
+	var choice = $("playstyle").value;
+
+	if(choice === 'Chord')
+	{
+		noteHit(frequencies[0], keys[0], 750);
+		noteHit(frequencies[1], keys[1], 750);
+		noteHit(frequencies[2], keys[2], 750);
+	}
+	else if(choice === 'Lead')
+	{
+		noteHit(frequencies[0], keys[0], 250);
+		setTimeout(function() {noteHit(frequencies[1], keys[1], 250);}, 250);
+		setTimeout(function() {noteHit(frequencies[2], keys[2], 250);}, 500);
+	}
+
+	
+	
 }
 
 
@@ -273,52 +313,54 @@ var getScaleData = function(){
 	displayChordInfo();
 };
 
-var setScaleData = function(ajax){
-	var json = ajax.responseJSON;
-	setInversion(json['inversion']);
-	setThreeNoteAdjacent(json['threeNoteAdjacent']);
-	setTwoNoteAdjacent(json['twoNoteAdjacent']);
-};
+// var setScaleData = function(ajax){
+// 	var json = ajax.responseJSON;
+// 	setInversion(json.inversion);
+// 	setThreeNoteAdjacent(json.threeNoteAdjacent);
+// 	setTwoNoteAdjacent(json.twoNoteAdjacent);
+// };
 
-var scaleFail = function(){
-	window.location.replace("failure.html");
-};
+// var scaleFail = function(){
+// 	window.location.replace("failure.html");
+// };
 
-var setInversion = function(inversionInput){
-	var div = $('inversions');
-	var text = document.createTextNode(inversionInput);
-	div.appendChild(text);
-};
+// var setInversion = function(inversionInput){
+// 	var div = $('inversions');
+// 	var text = document.createTextNode(inversionInput);
+// 	div.appendChild(text);
+// };
 
-var setThreeNoteAdjacent = function(adjacent){
-	var div = $('threeNoteSelector');
-	div.innerHTML = "";
-	for (var i = 0; i<adjacent.length; i++){
-		var span = document.createElement('span');
-		span.onclick = function(){
-			$('search').value = adjacent[i].id;
-			getScaleData();
-		};
-		var text = document.createTextNode(adjacent[i].scale);
-		span.appendChild(text);
-		div.appendChild(span);
-	}
-};
+// var setThreeNoteAdjacent = function(adjacent){
+// 	var div = $('threeNoteSelector');
+// 	div.innerHTML = "";
+// 	// for (var i = 0; i<adjacent.length; i++){
+// 	adjacent.forEach(function(elem) {
+// 		var span = document.createElement('span');
+// 		span.onclick = function(){
+// 			$('search').value = elem.id;
+// 			// $('search').value = adjacent[i].id;
+// 			getScaleData();
+// 		};
+// 		var text = document.createTextNode(adjacent[i].scale);
+// 		span.appendChild(text);
+// 		div.appendChild(span);
+// 	});
+// };
 
-var setTwoNoteAdjacent = function(adjacent){
-	var div = $('twoNoteSelector');
-	div.innerHTML = "";
-	for (var i = 0; i<adjacent.length; i++){
-		var span = document.createElement('span');
-		span.onclick = function(){
-			$('search').value = adjacent[i].id;
-			getScaleData;
-		};
-		var text = document.createTextNode(adjacent[i].scale);
-		span.appendChild(text);
-		div.appendChild(span);
-	}
-};
+// var setTwoNoteAdjacent = function(adjacent){
+// 	var div = $('twoNoteSelector');
+// 	div.innerHTML = "";
+// 	for (var i = 0; i<adjacent.length; i++){
+// 		var span = document.createElement('span');
+// 		span.onclick = function(){
+// 			$('search').value = adjacent[i].id;
+// 			getScaleData;
+// 		};
+// 		var text = document.createTextNode(adjacent[i].scale);
+// 		span.appendChild(text);
+// 		div.appendChild(span);
+// 	}
+// };
 
 var createPiano = function(){
 	var piano = $('piano');
@@ -379,7 +421,7 @@ var createBlackKey = function(piano, keyNumber){
 
 var keyPressed = function(){
 	var id = parseInt(this.id);
-	noteHit(id, $(id + ""));
+	noteHit(id, $(id + ""), 250);
 };
 
 var scaleNames = 
@@ -388,3 +430,6 @@ var scaleNames =
 	"F#/Gb major", "F#/Gb minor", "G major", "G minor", "G#/Ab major",
 	"G#/Ab minor", "A major", "A minor", "A#/Bb major", "A#/Bb minor",
 	"B major", "B minor"];
+
+init();
+}]);

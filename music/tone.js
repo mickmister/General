@@ -25,30 +25,82 @@ frequencies[21]	= 880;
 frequencies[22]	= 932.33;
 frequencies[23]	= 987.77;
 
-var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-var isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
-if(isChrome || isSafari){
-	var context = new webkitAudioContext();
-}else{
-	var context = null;
+var context;
+// var gainNode;
+window.addEventListener('load', init, false);
+function init() {
+  try {
+    // Fix up for prefixing
+    window.AudioContext = window.AudioContext||window.webkitAudioContext;
+    context = new AudioContext();
+    // gainNode = context.createGain();
+    // gainNode.connect(context.destination);
+  }
+  catch(e) {
+    alert('Web Audio API is not supported in this browser');
+  }
 }
 
-function noteHit(noteNumber, key){
+var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+var isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
+// var context;
+// if(isChrome || isSafari){
+// 	// var context = new webkitAudioContext();
+// 	var context = new AudioContext();
+// }else{
+// 	var context = null;
+// }
+
+function noteHit(noteNumber, key, duration){
 	if(context){
+
 		var oscillator = context.createOscillator();
-		oscillator.type = 0;
+		oscillator.type = 'triangle';
 		oscillator.frequency.value = frequencies[noteNumber];
-		oscillator.connect(context.destination);
+		// oscillator.connect(context.destination);
+		var gainNode = context.createGain();
+		oscillator.connect(gainNode);
+		gainNode.connect(context.destination);
+
+		play(oscillator, gainNode);
+		setTimeout(function() {stop(oscillator, gainNode);  }, duration);
+		setTimeout(function() {stop(oscillator, gainNode); key.classList.remove("red"); }, duration - 5);
+		
 		key.classList.add("red");
-		play(oscillator);
-		setTimeout(function() {stop(oscillator); key.classList.remove("red"); }, 250);
 	}
 }
 
-function play(oscillator){
-	oscillator.noteOn && oscillator.noteOn(0);
-};
+function play(oscillator, gainNode)
+{
+	gainNode.gain.value = 0;
+	oscillator.start();
+	// gainNode.gain.value = 1.0;
+	setTimeout(function() { gainNode.gain.value = 1.0; }, 20);
+	
+}
 
-function stop(oscillator){
-	oscillator.noteOff && oscillator.noteOff(0);
-};
+function stop(oscillator, gainNode)
+{
+	setTimeout(function() { gainNode.gain.value = 0;  }, 20);
+	setTimeout(function() { oscillator.stop(); }, 100);	
+}
+
+
+
+/*
+oscillator.frequency.value = 200;
+oscillator.start(0);
+
+function boop() {
+  gainNode.gain.value = 0.1;
+  // The sound should last for 250ms
+  setTimeout(function() {
+    gainNode.gain.value = 0;
+  }, 250);
+  oscillator.frequency.value++;
+}
+
+setInterval(boop, 500);
+
+*/
+

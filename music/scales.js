@@ -1,8 +1,11 @@
-var minorScaleDegrees = [0, 2, 3, 5, 6, 7, 8, 10];
-var majorScaleDegrees = [0, 2, 4, 5, 7, 9, 11];
+angular.module('MusicApp').
+	factory('ScalesService', [function(){
 
-var minorPentatonicDegrees = [0, 3, 5, 7, 10];
-var majorPentatonicDegrees = [0, 2, 4, 7, 9];
+private minorScaleDegrees = [0, 2, 3, 5, 6, 7, 8, 10];
+private majorScaleDegrees = [0, 2, 4, 5, 7, 9, 11];
+
+private minorPentatonicDegrees = [0, 3, 5, 7, 10];
+private majorPentatonicDegrees = [0, 2, 4, 7, 9];
 
 function getClassName(degree, majorBool)
 {
@@ -139,3 +142,5 @@ function getFrequencies(chordNum, inversionNum)
 
 
 }
+}]);
+// })();

@@ -16,7 +16,7 @@ function oneChordInfo(chordNumber, inversionIndex, table){
 	var scaleInfo = allChordInfo[chordNumber];
 	var baseNumber = (Math.floor(chordNumber/2) - scaleOffset + 12) % 12;
 	var label, left, middle, right, leftNum, midNum, rightNum, modifier;
-	if(chordNumber % 2 == 0){
+	if(chordNumber % 2 === 0){
 		modifier = 4;
 	}else{
 		modifier = 3;
@@ -34,71 +34,71 @@ function oneChordInfo(chordNumber, inversionIndex, table){
 	rightNum = scaleNumberStuff[(2 +  inversionIndex) % 3];
 	
 
-	row = document.createElement("tr");
-	var cell1 = document.createElement("td");
+	row = [];
+	var cell1 = {};
 	cell1.className = "left";
-	cell1.innerHTML = label;
-	var cell2 = document.createElement("td");
+	cell1text.label = label;
+	var cell2 = {};
 	cell2.className = "center";
-	cell2.innerHTML = left;
-	var cell3 = document.createElement("td");
+	cell2text.label = left;
+	var cell3 = {};
 	cell3.className = "center";
-	cell3.innerHTML = middle;
-	var cell4 = document.createElement("td");
+	cell3text.label = middle;
+	var cell4 = {};
 	cell4.className = "center";
-	cell4.innerHTML = right;
-	var cell5 = document.createElement("td");
+	cell4text.label = right;
+	var cell5 = {};
 	cell5.className = "center";
 	cell5.id = chordNumber + "-" + inversionIndex + "-0";
 	cell5.onclick = chordAction;
-	cell5.innerHTML = "Add";
-	row.appendChild(cell1);
-	row.appendChild(cell2);
-	row.appendChild(cell3);
-	row.appendChild(cell4);
-	row.appendChild(cell5);
-	table.appendChild(row);
+	cell5text.label = "Add";
+	row.push(cell1);
+	row.push(cell2);
+	row.push(cell3);
+	row.push(cell4);
+	row.push(cell5);
+	table.push(row);
 
-	row = document.createElement("tr");
-	cell1 = document.createElement("td");
+	row = [];
+	cell1 = {};
 	cell1.className = "left";
-	cell2 = document.createElement("td");
+	cell2 = {};
 	cell2.className = "center";
-	cell3 = document.createElement("td");
+	cell3 = {};
 	cell3.className = "center";
-	cell4 = document.createElement("td");
+	cell4 = {};
 	cell4.className = "center";
-	cell5 = document.createElement("td");
+	cell5 = {};
 	cell5.className = "center";
 	cell5.id = chordNumber + "-" + inversionIndex + "-1";
 	cell5.onclick = chordAction;
-	cell5.innerHTML = "Play";
-	cell1.innerHTML = "";
-	cell2.innerHTML = leftNum;
-	cell3.innerHTML = midNum;
-	cell4.innerHTML = rightNum;
+	cell5text.label = "Play";
+	cell1text.label = "";
+	cell2text.label = leftNum;
+	cell3text.label = midNum;
+	cell4text.label = rightNum;
 	
-	row.appendChild(cell1);
-	row.appendChild(cell2);
-	row.appendChild(cell3);
-	row.appendChild(cell4);
-	row.appendChild(cell5);
-	table.appendChild(row);
+	row.push(cell1);
+	row.push(cell2);
+	row.push(cell3);
+	row.push(cell4);
+	row.push(cell5);
+	table.push(row);
 }
 
 function getTableOfChordInfo(scaleNum)
 {
 	var scaleInfo = allChordInfo[scaleNum];
-	var middleNumber = scaleNum % 2 == 0 ? 4 : 3;
-	var table = document.createElement("table");
-	table.className = "small";
+	var middleNumber = scaleNum % 2 === 0 ? 4 : 3;
+	var table = [];
+	// table.className = "small";
 
-	var row = document.createElement("tr");
-	var headerCell = document.createElement("th");
-	headerCell.innerHTML = scaleInfo.name;
+	var row = [];
+	var headerCell = {};
+	headerCelltext.label = scaleInfo.name;
 	headerCell.className = "left";
-	row.appendChild(headerCell);
-	table.appendChild(row);
+	row.push(headerCell);
+	table.push(row);
 
 	oneChordInfo(scaleNum, 0, table);
 	oneChordInfo(scaleNum, 1, table);
